@@ -13,8 +13,8 @@ public class HomeWorkApp {
     }
 
     public  static  void  checkSumSign(){
-        int a = -8;
-        int b = 20;
+        int a = 8;
+        int b = -20;
 
         if ( ( a + b ) >= 0 ) {
             System.out.println("Сумма положительная");
