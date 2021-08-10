@@ -5,6 +5,9 @@ import  java.util.Scanner;
 
 public class HomeworkLesson3 {
     public static void main(String[] args) {
+
+        drawDiagonal();
+
         int n;
         Scanner scan = new Scanner(System.in);
         n = scan.nextInt();
@@ -14,11 +17,9 @@ public class HomeworkLesson3 {
         }
         System.out.println(Arrays.toString(arr));
 
-        drawDiagonal();
-
-        int test[] = {1,1,1,3,5,1,4,1,1,2,2,1};
+        int test[] = {8,2,2,2,1,4,1};
         System.out.println(checkBalance(test));
-        offsetArrElem(arr, -7);
+        offsetArrElem(arr, -2);
 
     }
 
@@ -36,7 +37,6 @@ public class HomeworkLesson3 {
 
         for(int i = 0; i< arr.length; i++){
                 System.out.println(Arrays.toString(arr[i]));
-
         }
     }
 
@@ -62,6 +62,8 @@ public class HomeworkLesson3 {
 
     public static  void offsetArrElem(int[] arr, int offset){
         int set, tmp, idx = 0, TmpNew;
+        int i = 0;
+        int idxFirst =0;
         if( Math.abs(offset) >= arr.length){
             set = offset % arr.length;
         }else{
@@ -69,7 +71,7 @@ public class HomeworkLesson3 {
         }
 
         tmp = arr[idx];
-        for (int i= 0; i<arr.length; i++){
+        while(i<arr.length){
 
           idx += set;
           if( idx >= arr.length){
@@ -81,6 +83,13 @@ public class HomeworkLesson3 {
           TmpNew = arr[idx];
           arr[idx] = tmp;
           tmp = TmpNew;
+
+          i++;
+          if (idx == idxFirst){
+              idxFirst += 1;
+              idx = idxFirst;
+              tmp = arr[idx];
+          }
         }
 
         System.out.println(Arrays.toString(arr));
