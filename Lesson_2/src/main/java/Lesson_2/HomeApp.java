@@ -2,6 +2,7 @@ package Lesson_2;
 
 public class HomeApp {
     public static void main(String[] args) {
+
         System.out.println(checkSum(18, 3));
         printPositiveOrNegative(-98);
         System.out.println(isNegative(-9));
@@ -11,10 +12,8 @@ public class HomeApp {
 
     public static  boolean checkSum(int a, int b){
         int sum = a + b;
-        if( sum > 10 && sum <= 20){
-            return true;
-        }
-        return false;
+        return ( sum > 10 && sum <= 20);
+
     }
 
     public static void printPositiveOrNegative(int zahl) {
@@ -26,10 +25,7 @@ public class HomeApp {
     }
 
     public static boolean isNegative(int zahl){
-        if(zahl < 0){
-            return true;
-        }
-        return false;
+        return (zahl < 0);
     }
 
     public static void printText(String text, int n){
