@@ -14,6 +14,11 @@ public class TicTacToe {
     private static final char DOT_O = 'O';
     private static final char DOT_EMPTY = '_';
 
+    private  static  int playerX;
+    private  static  int playerY;
+    private  static  int gameX;
+    private  static  int gameY;
+
     public static void main(String[] args) {
         map = new char[SIZE][SIZE];
         scanner = new Scanner(System.in);
@@ -24,14 +29,20 @@ public class TicTacToe {
 
         while (true) {
             playerTurn();
-
+            if( checkWin(playerX, playerY, DOT_X )){
+                System.out.println("You win");
+                break;
+            }
             if (isMapFull()) {
                 System.out.println("Заполнены все клетки");
                 break;
             }
 
             gameTurn();
-
+            if( checkWin(gameX, gameY, DOT_O )){
+                System.out.println("Game over");
+                break;
+            }
             if (isMapFull()) {
                 System.out.println("Заполнены все клетки");
                 break;
@@ -73,7 +84,7 @@ public class TicTacToe {
         }
 
 
-        if (length == 3) return true;
+        if (length == SIZE) return true;
         return false;
     }
 
@@ -88,25 +99,25 @@ public class TicTacToe {
 
 
     public static void playerTurn () {
-        int x, y;
+
         do {
             System.out.println("Введите координаты в формате X Y");
-            x = scanner.nextInt() - 1;
-            y = scanner.nextInt() - 1;
-        } while (!isCellValid(x, y));
+            playerX = scanner.nextInt() - 1;
+            playerY = scanner.nextInt() - 1;
+        } while (!isCellValid(playerX, playerY));
 
-        map[x][y] = DOT_X;
+        map[playerX][playerY] = DOT_X;
         printMap();
     }
 
 
     public static void gameTurn () {
-        int x, y;
+
         do {
-            x = random.nextInt(SIZE);
-            y = random.nextInt(SIZE);
-        } while (!isCellValid(x, y));
-        map[x][y] = DOT_O;
+            gameX = random.nextInt(SIZE);
+            gameY = random.nextInt(SIZE);
+        } while (!isCellValid(gameX, gameY));
+        map[gameX][gameY] = DOT_O;
 
         printMap();
     }
