@@ -9,10 +9,15 @@ public class TicTacToe {
     private static Scanner scanner;
     private static Random random;
 
-    private static final int SIZE = 3;
+    private static final int SIZE = 5;
     private static final char DOT_X = 'X';
     private static final char DOT_O = 'O';
     private static final char DOT_EMPTY = '_';
+
+    private  static  int playerX;
+    private  static  int playerY;
+    private  static  int gameX;
+    private  static  int gameY;
 
     public static void main(String[] args) {
         map = new char[SIZE][SIZE];
@@ -24,14 +29,20 @@ public class TicTacToe {
 
         while (true) {
             playerTurn();
-
+            if( checkWin(playerX, playerY, DOT_X )){
+                System.out.println("You win");
+                break;
+            }
             if (isMapFull()) {
                 System.out.println("Заполнены все клетки");
                 break;
             }
 
-            gameTurn();
-
+            if(!gameTurn()) break;
+            if( checkWin(gameX, gameY, DOT_O )){
+                System.out.println("Game over");
+                break;
+            }
             if (isMapFull()) {
                 System.out.println("Заполнены все клетки");
                 break;
@@ -47,9 +58,9 @@ public class TicTacToe {
                 if (map[i][i] == dot) length += 1;
             }
 
-        } else if (x + y == SIZE + 1) { //диагональ
+        } else if (x + y == SIZE - 1) { //диагональ
             for (int i = SIZE - 1; i >= 0; i--) {
-                if (map[i][i] == dot) length += 1;
+                if (map[SIZE - 1 - i][i] == dot) length += 1;
             }
         } else {
             for (int i = 0; i < SIZE; i++) {
@@ -73,7 +84,7 @@ public class TicTacToe {
         }
 
 
-        if (length == 3) return true;
+        if (length == SIZE) return true;
         return false;
     }
 
@@ -86,29 +97,80 @@ public class TicTacToe {
         return true;
     }
 
+    public  static  boolean nextGameStep(){
+        int horizont = 0, vertical = 0, diagonalLeft = 0, diagonalRight = 0;
 
+        for(int i =0; i<SIZE; i++){
+            if(map[playerX][i] == DOT_X) horizont +=1;
+            else if( map[playerX][i] == DOT_O){ horizont = 0; break;}
+        }
+        for(int i=0; i<SIZE; i++){
+            if(map[i][playerY] == DOT_X) vertical +=1;
+            else if( map[i][playerY] == DOT_O){ vertical = 0; break; }
+        }
+
+        if( playerX == playerY){
+            for(int i=0; i<SIZE; i++){
+                if(map[i][i] == DOT_X) diagonalLeft +=1;
+                else if( map[i][i] == DOT_O ){ diagonalLeft = 0; break; }
+            }
+        }
+
+        if( playerX + playerY == SIZE - 1){
+            for(int j = SIZE -1; j >=0; j--){
+              if(map[SIZE - j - 1][j] == DOT_X) diagonalRight += 1;
+              else if(map[SIZE - j - 1][j] == DOT_O){ diagonalRight = 0; break; }
+            }
+        }
+
+        int i = 0, j = 0;
+
+        if( diagonalLeft >= horizont && diagonalLeft >= vertical && diagonalLeft >= diagonalRight ){
+             i = 0; j = 0;
+            while (map[i][j] == DOT_X) { i++; j++; }
+
+        } else if( diagonalRight >= horizont && diagonalRight >= vertical && diagonalRight >= diagonalLeft){
+            i = 0; j = SIZE - 1;
+            while( map[i][j] == DOT_X){ i++; j--;}
+
+        }  else if( horizont >= vertical && horizont >= diagonalLeft && horizont >= diagonalRight) {
+            j = 0; i = playerX;
+            while (map[playerX][j] == DOT_X) j++;
+
+        } else if( vertical >= horizont && vertical >= diagonalLeft && vertical >= diagonalRight){
+            i = 0; j = playerY;
+            while (map[i][playerY] == DOT_X) i++; }
+
+        if (horizont == 0 && vertical == 0 && diagonalLeft == 0 && diagonalRight == 0) return false;
+        gameX = i;
+        gameY = j;
+        return true;
+    }
     public static void playerTurn () {
-        int x, y;
+
         do {
             System.out.println("Введите координаты в формате X Y");
-            x = scanner.nextInt() - 1;
-            y = scanner.nextInt() - 1;
-        } while (!isCellValid(x, y));
+            playerX = scanner.nextInt() - 1;
+            playerY = scanner.nextInt() - 1;
+        } while (!isCellValid(playerX, playerY));
 
-        map[x][y] = DOT_X;
+        map[playerX][playerY] = DOT_X;
         printMap();
     }
 
 
-    public static void gameTurn () {
-        int x, y;
-        do {
-            x = random.nextInt(SIZE);
-            y = random.nextInt(SIZE);
-        } while (!isCellValid(x, y));
-        map[x][y] = DOT_O;
+    public static boolean gameTurn () {
+        boolean next;
+        next = nextGameStep();
+//        do {
+//            gameX = random.nextInt(SIZE);
+//            gameY = random.nextInt(SIZE);
+//        } while (!isCellValid(gameX, gameY));
+        map[gameX][gameY] = DOT_O;
 
         printMap();
+        if (next == false) System.out.println("The End");
+        return next;
     }
 
     public static boolean isCellValid ( int x, int y){
