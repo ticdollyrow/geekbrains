@@ -19,8 +19,8 @@ public class Employee {
        this.position = position;
        this.email= email;
        this.phoneNumber = phoneNumber;
-       this.salary = salary;
-       this.age = age;
+       if( salary > 0.0f ) this.salary = salary;
+       if ( age > 0 ) this.age = age;
    }
 
    public void info(){
