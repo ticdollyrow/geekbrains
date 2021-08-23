@@ -7,6 +7,7 @@ public class Dog extends Animal{
         DogCount += 1;
     }
 
+    @Override
     public void swim( int length ){
         if( length > super.getSwimLength() ){
             System.out.println("ограничение для собак " + super.getSwimLength() + "м");
