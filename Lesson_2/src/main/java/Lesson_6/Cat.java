@@ -6,7 +6,7 @@ public class Cat extends Animal{
         super(name, 200, 0);
         CatCount +=1;
     }
-
+    @Override
     public void swim( int length ){
         System.out.println("Коты не умеют плавать");
     }
