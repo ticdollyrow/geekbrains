@@ -1,0 +1,77 @@
+ Определить сложность следующих алгоритмов:
+-. Поиск элемента массива с известным индексом  - O(1)
+-. Дублирование одномерного массива через foreach - O(n)
+-. Удаление элемента массива с известным индексом без сдвига - O(1)
+-. Удаление элемента массива с неизвестным индексом без сдвига - O(n) при переборе или O(logn) при бинарном поиске
+-. Удаление элемента массива с неизвестным индексом со сдвига - O(n)
+
+
+Определить сложность следующих алгоритмов. Сколько произойдет итераций?
+a)
+
+        int n = 10000;
+        List<Integer> arrayList = new ArrayList<>();
+        for (int i = 0; i < n; i++) {     O(n)
+            for (int j = 1; j < n; j *= 2) { O(logn)
+                arrayList.add(i * j);
+            }
+        }
+
+O(nlogn)
+140000 количество итераций
+
+b)
+
+        int n = 10000;
+        List<Integer> arrayList = new ArrayList<>();
+        for (int i = 0; i < n; i += 2) {
+            for (int j = i; j < n; j++) {
+                arrayList.add(i * j);
+            }
+        }
+
+Количество итераций 25005000
+O(n^2)
+
+с)
+
+        int n = 10000;
+        List<Integer> arrayList = new ArrayList<>();
+        for (int i = 0; i < n; i ++) {
+            for (int j = 0; j < n; j++) {
+                arrayList.add(i * j);
+                n--;
+            }
+        }
+O(n)
+Количество итераций 9991
+
+d)
+```
+
+    factorial(BigInteger.valueOf(10000))
+
+public static BigInteger factorial(BigInteger n) {
+    if (n.equals(BigInteger.ONE)) {
+        return n;
+    }
+    return n.multiply(factorial(n.subtract(BigInteger.valueOf(1))));
+}
+
+O(n)
+Количество итераций 10000
+
+e)
+fib(BigInteger.valueOf(50));
+
+public static BigInteger fib(BigInteger n) {
+    if (n.equals(BigInteger.ONE)) {
+        return BigInteger.ZERO;
+    }
+    if (n.equals(BigInteger.TWO)) {
+        return BigInteger.ONE;
+    }
+    return fib(n.subtract(BigInteger.ONE)).add(fib(n.subtract(BigInteger.TWO)));
+}
+
+O(2^n)

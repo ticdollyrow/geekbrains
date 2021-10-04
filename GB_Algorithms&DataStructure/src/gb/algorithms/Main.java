@@ -1,6 +1,8 @@
 package gb.algorithms;
 
+import java.math.*;
 public class Main {
+
 
     public static void main(String[] args) {
 	// write your code here
@@ -8,6 +10,24 @@ public class Main {
         int value = 12;
         int item = binarySearch(arr,value);
         System.out.println(item);
+
+    }
+
+    public static BigInteger fib(BigInteger n) {
+        if (n.equals(BigInteger.ONE)) {
+            return BigInteger.ZERO;
+        }
+        if (n.equals(BigInteger.TWO)) {
+            return BigInteger.ONE;
+        }
+        return fib(n.subtract(BigInteger.ONE)).add(fib(n.subtract(BigInteger.TWO)));
+    }
+
+    public static BigInteger factorial(BigInteger n) {
+        if (n.equals(BigInteger.ONE)) {
+            return n;
+        }
+        return n.multiply(factorial(n.subtract(BigInteger.valueOf(1))));
     }
 
     public static int binarySearch(int[] arr, int value){
