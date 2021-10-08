@@ -82,7 +82,7 @@ public class Notebook {
         System.out.println("Цена " + this.price + " RAM " + this.ram + " " + this.name);
     }
 
-    public static void sort(Notebook[] laptop){
+    public static void selectionSort(Notebook[] laptop){
         int minLaptop;
         int n = laptop.length;
         for (int i = 0; i < n - 1; i++){
