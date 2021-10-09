@@ -7,7 +7,7 @@ public class MainSort {
 
         Notebook[] laptops = Notebook.getArray(n, 50, 4);
 
-        Notebook.sort(laptops);
+        Notebook.selectionSort(laptops);
 //        for (Notebook table: laptops) {
 //            table.print();
 //        }
