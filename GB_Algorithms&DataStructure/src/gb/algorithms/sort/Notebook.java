@@ -100,4 +100,16 @@ public class Notebook {
             laptop[minLaptop] = temp;
         }
     }
+
+    public static void insertionSort(Notebook[] laptop){
+        Notebook value;
+        int j;
+        for(int i = 0; i < laptop.length - 1; i++){
+            value = laptop[i + 1];
+            for( j = i + 1; j > 0 && laptop[j-1].compare(value) == 1; j--){
+                laptop[j] = laptop[j-1];
+            }
+            laptop[j] = value;
+        }
+    }
 }
