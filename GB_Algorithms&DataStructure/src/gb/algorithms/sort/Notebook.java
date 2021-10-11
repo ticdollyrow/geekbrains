@@ -1,5 +1,7 @@
 package gb.algorithms.sort;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -65,7 +67,7 @@ public class Notebook {
         return laptops;
     }
 
-    private int compare(Notebook laptop){
+    private int compare(@NotNull Notebook laptop){
         if(this.price > laptop.getPrice()) return 1;
         if(this.price < laptop.getPrice()) return - 1;
 
