@@ -16,5 +16,8 @@ https://habr.com/ru/post/196226/
 
 https://www.baeldung.com/java-string-constant-pool-heap-stack
 
+Сортировки http://algolab.valemak.com/#underway
+Алгоритмы и структуры данных для начинающих: сортировка https://tproger.ru/translations/sorting-for-beginners/
+С.М. Окулов. "Длинная" арифметика http://comp-science.narod.ru/DL-AR/okulov.htm
 Lombok https://habr.com/ru/post/345520/
 Справочник по Java Collections Framework  https://habr.com/ru/post/237043/
