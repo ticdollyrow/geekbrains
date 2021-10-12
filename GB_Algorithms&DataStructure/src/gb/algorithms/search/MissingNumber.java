@@ -1,13 +1,11 @@
 package gb.algorithms.search;
 
-import java.util.Arrays;
-
 public class MissingNumber {
     private final static int FIRST_VALUE = 1;
 //    Дан массив из n элементов, начиная с 1. Каждый следующий элемент равен (предыдущий + 1).
 //    Но в массиве гарантированно 1 число пропущено. Необходимо вывести на экран пропущенное число.
 
-    public static int search(int arr[], int step){
+    public static int search(int[] arr, int step){
         int middle, value;
 
         if(arr.length == 0) return FIRST_VALUE;
