@@ -37,7 +37,12 @@ public class QueueImpl<E> implements Queue<E> {
         if (isEmpty()) {
             return null;
         }
-        E value = data[head++];
+
+        E value = data[head];
+        if(head == data.length - 1){
+            head = TAIL_DEFAULT;
+        }
+        head++;
         size--;
         return value;
     }
@@ -59,13 +64,23 @@ public class QueueImpl<E> implements Queue<E> {
 
     @Override
     public String toString() {
+
         StringBuilder sb = new StringBuilder("[");
-        for (int i = head; i <= tail; i++) {
-            sb.append(data[i]);
-            if (i != tail) {
+
+        int n = data.length;
+        int i = 0;
+        int beg = head;
+        while (i < n){
+            sb.append(data[beg]);
+            if(beg != tail){
                 sb.append(", ");
             }
+            if(beg == tail) break;
+            beg++;
+            if(beg == n) beg = 0;
+            i++;
         }
+
         sb.append("]");
         return sb.toString();
     }

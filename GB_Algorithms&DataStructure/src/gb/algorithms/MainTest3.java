@@ -7,7 +7,7 @@ import gb.algorithms.collections.queue.QueueImpl;
 
 public class MainTest3 {
     public static void main(String[] args) {
-//        testQueue();
+//       testQueue();
         testDeue();
     }
 
@@ -23,6 +23,14 @@ public class MainTest3 {
 
         queue.display();
         System.out.println("remove: " + queue.remove());
+        queue.display();
+        System.out.println("remove: " + queue.remove());
+        queue.display();
+        System.out.println("remove: " + queue.remove());
+        queue.display();
+        System.out.println("add element: " + queue.insert(134));
+        queue.display();
+        System.out.println("add element: " + queue.insert(141));
         queue.display();
 
     }
@@ -40,6 +48,12 @@ public class MainTest3 {
         System.out.println("remove: " + deque.removeRight());
         deque.display();
         System.out.println("remove: " + deque.removeLeft());
+        deque.display();
+        System.out.println("add element: " + deque.insertLeft(165));
+        deque.display();
+        System.out.println("remove: " + deque.removeRight());
+        deque.display();
+        System.out.println("add element: " + deque.insertRight(188));
         deque.display();
 
     }

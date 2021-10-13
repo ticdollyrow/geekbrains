@@ -120,12 +120,21 @@ public class DequeImpl<E> implements Deque<E>{
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("[");
-        for (int i = 0; i < data.length; i++) {
-            sb.append(data[i]);
-            if (i != data.length - 1) {
+
+        int n = data.length;
+        int i = 0;
+        int beg = head;
+        while (i < n){
+            sb.append(data[beg]);
+            if(beg != tail){
                 sb.append(", ");
             }
+            if(beg == tail) break;
+            beg++;
+            if(beg == n) beg = 0;
+            i++;
         }
+
         sb.append("]");
         return sb.toString();
     }
