@@ -41,16 +41,16 @@ public class GraphImpl implements Graph {
     }
 
 
-//    @Override
-//    public boolean addEdge(String startLabel, String secondLabel, String... others) {
-//        boolean result = addEdge(startLabel, secondLabel);
-//
-//        for (String other : others) {
-//            result &= addEdge(startLabel, other);
-//        }
+    @Override
+    public boolean addEdge(String startLabel, String secondLabel, String... others) {
+        boolean result = addEdge(startLabel, secondLabel);
 
-//        return result;
-//    }
+        for (String other : others) {
+            result &= addEdge(startLabel, other);
+        }
+
+        return result;
+    }
 
 
     @Override
@@ -109,6 +109,7 @@ public class GraphImpl implements Graph {
         vertex.setVisited(true);
     }
 
+
     private void visitedVertex(Queue<Vertex> queue, Vertex vertex) {
         System.out.print(vertex.getLabel() + " ");
         queue.add(vertex);
@@ -141,10 +142,17 @@ public class GraphImpl implements Graph {
     public void findBestWay(String startLabel, String endLabel) {
         int minWay = 0;
         int minWayTempl = 0;
+        Stack<Vertex> myWayStack = new Stack<>();
+
 
         int startIndex = indexOf(startLabel);
+        int endIndex   = indexOf(endLabel);
         if (startIndex == -1) {
             throw new IllegalArgumentException("Неверная вершина: " + startLabel);
+        }
+
+        if (endIndex == -1) {
+            throw new IllegalArgumentException("Неверная вершина: " + endLabel);
         }
 
         Stack<Vertex> stack = new Stack<>();
@@ -155,25 +163,43 @@ public class GraphImpl implements Graph {
             int currentIndex = vertexList.indexOf(stack.peek());
             vertex = getNearUnvisitedVertex(stack.peek());
             if (vertex != null) {
-                if( vertex.getLabel() != endLabel)
-                visitedVertex(stack, vertex);
 
                 int newIndex = vertexList.indexOf(vertex);
                 minWayTempl += adjMatrix[currentIndex][newIndex];
+
+                vertex.setWeight(adjMatrix[currentIndex][newIndex]);
+                visitedVertex(stack, vertex);
+
               if( vertex.getLabel() == endLabel){
                   if( minWayTempl != 0 && ( minWay > minWayTempl || minWay == 0) ){
                   minWay = minWayTempl;
-
+                      myWayStack = (Stack<Vertex>) stack.clone();
                   }
-                  minWayTempl = 0;
-                  stack.pop();
+
+                  vertex = stack.pop();
+                  minWayTempl -= vertex.getWeight();
+                  vertex = getNearUnvisitedVertex(stack.peek());
+                  if( vertex != vertexList.get(endIndex)){
+                      if( vertex == null){
+                        vertex = stack.pop();
+                        minWayTempl -= vertex.getWeight();
+                      } else {
+                          visitedVertex(stack, vertex);
+                      }
+
+                      vertex = vertexList.get(endIndex);
+                      vertex.setVisited(false);
+                  }
               }
 
             } else {
-                stack.pop();
+                vertex = stack.pop();
+                minWayTempl -= vertex.getWeight();
             }
         }
         System.out.println();
         System.out.println(minWay);
+        System.out.println(myWayStack);
     }
+
 }

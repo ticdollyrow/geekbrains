@@ -32,7 +32,8 @@ public class MainTest7 {
         graph.addEdge("Москва", "Калуга",6);
         graph.addEdge("Калуга", "Орел",4);
         graph.addEdge("Орел", "Курск",1);
-        graph.addEdge("Курск", "Воронеж",2);
+        graph.addEdge("Курск", "Воронеж",7);
+//       graph.addEdge("Тамбов", "Курск",5);
 
         graph.findBestWay("Москва", "Воронеж");
     }

@@ -3,7 +3,7 @@ package gb.algorithms.graph;
 public interface Graph {
     void addVertex(String label);
 
-//    boolean addEdge(String startLabel, String secondLabel, String... others);
+    boolean addEdge(String startLabel, String secondLabel, String... others);
     boolean addEdge(String startLabel, String secondLabel, int weight);
 
     int getSize();

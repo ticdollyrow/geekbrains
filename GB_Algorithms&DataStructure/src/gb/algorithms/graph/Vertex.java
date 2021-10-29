@@ -6,6 +6,17 @@ import java.util.Objects;
 public class Vertex {
     private final String label;
     private boolean isVisited;
+    private int weight;
+
+    public void setWeight(int weight) {
+        this.weight = weight;
+    }
+
+    public int getWeight() {
+        return weight;
+    }
+
+
 
     public boolean isVisited() {
         return isVisited;
