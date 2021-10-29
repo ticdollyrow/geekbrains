@@ -6,11 +6,11 @@ import java.util.*;
 public class GraphImpl implements Graph {
 
     private final List<Vertex> vertexList;
-    private final boolean[][] adjMatrix;
+    private final int [][] adjMatrix;
 
     public GraphImpl(int maxVertexCount) {
         this.vertexList = new ArrayList<>(maxVertexCount);
-        this.adjMatrix = new boolean[maxVertexCount][maxVertexCount];
+        this.adjMatrix = new int[maxVertexCount][maxVertexCount];
     }
 
     @Override
@@ -19,7 +19,7 @@ public class GraphImpl implements Graph {
     }
 
     @Override
-    public boolean addEdge(String startLabel, String secondLabel) {
+    public boolean addEdge(String startLabel, String secondLabel, int weigth) {
         int startIndex = indexOf(startLabel);
         int endIndex = indexOf(secondLabel);
 
@@ -27,7 +27,7 @@ public class GraphImpl implements Graph {
             return false;
         }
 
-        adjMatrix[startIndex][endIndex] = true;
+        adjMatrix[startIndex][endIndex] = weigth;
         return true;
     }
 
@@ -41,16 +41,17 @@ public class GraphImpl implements Graph {
     }
 
 
-    @Override
-    public boolean addEdge(String startLabel, String secondLabel, String... others) {
-        boolean result = addEdge(startLabel, secondLabel);
+//    @Override
+//    public boolean addEdge(String startLabel, String secondLabel, String... others) {
+//        boolean result = addEdge(startLabel, secondLabel);
+//
+//        for (String other : others) {
+//            result &= addEdge(startLabel, other);
+//        }
 
-        for (String other : others) {
-            result &= addEdge(startLabel, other);
-        }
+//        return result;
+//    }
 
-        return result;
-    }
 
     @Override
     public int getSize() {
@@ -62,7 +63,7 @@ public class GraphImpl implements Graph {
         for (int i = 0; i < getSize(); i++) {
             System.out.print(vertexList.get(i));
             for (int j = 0; j < getSize(); j++) {
-                if (adjMatrix[i][j]) {
+                if (adjMatrix[i][j] != 0 ) {
                     System.out.print(" -> " + vertexList.get(j));
                 }
             }
@@ -95,7 +96,7 @@ public class GraphImpl implements Graph {
     private Vertex getNearUnvisitedVertex(Vertex vertex) {
         int currentIndex = vertexList.indexOf(vertex);
         for (int i = 0; i < getSize(); i++) {
-            if (adjMatrix[currentIndex][i] && !vertexList.get(i).isVisited()) {
+            if (adjMatrix[currentIndex][i] != 0 && !vertexList.get(i).isVisited()) {
                 return vertexList.get(i);
             }
         }
@@ -134,5 +135,45 @@ public class GraphImpl implements Graph {
             }
         }
         System.out.println();
+    }
+
+    @Override
+    public void findBestWay(String startLabel, String endLabel) {
+        int minWay = 0;
+        int minWayTempl = 0;
+
+        int startIndex = indexOf(startLabel);
+        if (startIndex == -1) {
+            throw new IllegalArgumentException("Неверная вершина: " + startLabel);
+        }
+
+        Stack<Vertex> stack = new Stack<>();
+        Vertex vertex = vertexList.get(startIndex);
+
+        visitedVertex(stack, vertex);
+        while (!stack.isEmpty()) {
+            int currentIndex = vertexList.indexOf(stack.peek());
+            vertex = getNearUnvisitedVertex(stack.peek());
+            if (vertex != null) {
+                if( vertex.getLabel() != endLabel)
+                visitedVertex(stack, vertex);
+
+                int newIndex = vertexList.indexOf(vertex);
+                minWayTempl += adjMatrix[currentIndex][newIndex];
+              if( vertex.getLabel() == endLabel){
+                  if( minWayTempl != 0 && ( minWay > minWayTempl || minWay == 0) ){
+                  minWay = minWayTempl;
+
+                  }
+                  minWayTempl = 0;
+                  stack.pop();
+              }
+
+            } else {
+                stack.pop();
+            }
+        }
+        System.out.println();
+        System.out.println(minWay);
     }
 }
