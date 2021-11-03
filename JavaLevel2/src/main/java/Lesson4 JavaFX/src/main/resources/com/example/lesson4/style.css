@@ -1,0 +1,20 @@
+.root{
+
+}
+
+.button{
+    -fx-background-color: #91972A;
+}
+
+.text-field{
+
+    -fx-background-color: #F6FEDB;
+}
+
+.text-area{
+    -fx-font: 10pt sans-serif;
+}
+
+.text-area .content {
+    -fx-background-color: #E6D3A3;
+}

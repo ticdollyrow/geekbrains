@@ -10,13 +10,17 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.Menu?>
-<VBox spacing="10.0" xmlns:fx="http://javafx.com/fxml"
+<?import javafx.scene.control.MenuItem?>
+<VBox xmlns:fx="http://javafx.com/fxml"
+      stylesheets="@style.css"
       fx:controller="com.example.lesson4.HelloController">
+
     <MenuBar>
         <Menu text="File">
-            <Menu text="Exit" onAction="#exitMenuSelect" />
+            <MenuItem fx:id="exit" text="Exit" onAction="#exitMenuSelect" accelerator="Shortcut+X"/>
         </Menu>
     </MenuBar>
+
     <TextArea fx:id="messageArea" VBox.vgrow="ALWAYS" editable="false"/>
     <HBox>
         <TextField fx:id="message" HBox.hgrow="ALWAYS" />
