@@ -10,6 +10,7 @@ import java.util.Scanner;
 public class Server {
     private final static int PORT = 8190;
     private final static String END = "/end";
+    private static volatile boolean flagExit = false;
 
     public static void main(String[] args) {
         Socket socket = null;
@@ -22,31 +23,67 @@ public class Server {
             DataInputStream dataInputStream = new DataInputStream(socket.getInputStream());
             DataOutputStream dataOutputStream = new DataOutputStream(socket.getOutputStream());
 
-            while (true){
-                String s = dataInputStream.readUTF();
-                if(s.equals(END)){
-                    dataOutputStream.writeUTF(END);
-                    break;
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    sendClientMessage(dataInputStream, dataOutputStream);
                 }
-                System.out.println(s);
-                dataOutputStream.writeUTF("Клиент: " + s);
+            }).start();
 
-                sendMessage(dataOutputStream);
-            }
+
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    sendMessage(dataOutputStream);
+                }
+            }).start();
+
+
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 
     private static void sendMessage(DataOutputStream out) {
         Scanner scan = new Scanner(System.in);
-        String next = scan.next();
-        if(! next.isEmpty()) {
-            try {
-                out.writeUTF("Server: " + next);
-            } catch (IOException e) {
-                e.printStackTrace();
+
+        while (!flagExit) {
+            String next = scan.nextLine();
+            if (!next.isEmpty()) {
+                try {
+                    if (next.equals(END)) {
+                        out.writeUTF(END);
+                        flagExit = true;
+                        break;
+                    }
+                    out.writeUTF("Server: " + next);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
+
+        scan.close();
+    }
+
+    private static void sendClientMessage(DataInputStream in, DataOutputStream out){
+        try{
+            while (!flagExit) {
+
+                String strClient = in.readUTF();
+                System.out.println(strClient);
+                if (strClient.equals(END)) {
+                    out.writeUTF(END);
+                    flagExit = true;
+                    break;
+                }
+                out.writeUTF("Клиент: " + strClient);
+
+            }
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+
     }
 }

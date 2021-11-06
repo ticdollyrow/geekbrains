@@ -8,6 +8,7 @@ import java.net.Socket;
 public class Client {
     final static int PORT = 8190;
     private static String END = "/end";
+    private boolean flagExit = false;
 
     private Socket socket;
     private DataOutputStream out;
@@ -33,6 +34,7 @@ public class Client {
                             while (true) {
                                 String s = in.readUTF();
                                 if( END.equals(s)){
+                                    controller.addMessage(END);
                                     break;
                                 }
                                 controller.addMessage(s);
@@ -41,6 +43,8 @@ public class Client {
                             e.printStackTrace();
                         }finally {
                             closeConnection();
+                            controller.addMessage("диалог окончен");
+                            flagExit = true;
                         }
 
                     }
@@ -89,6 +93,9 @@ public class Client {
     }
 
     public void close(){
+        if(flagExit) {
+            return;
+        }
         try {
             out.writeUTF(END);
         } catch (IOException e) {
