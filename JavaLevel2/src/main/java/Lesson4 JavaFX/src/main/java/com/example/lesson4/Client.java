@@ -7,15 +7,13 @@ import java.net.Socket;
 
 public class Client {
     final static int PORT = 8190;
-    private static String END = "/end";
-    private boolean flagExit = false;
 
     private Socket socket;
     private DataOutputStream out;
     private DataInputStream in;
-    private HelloController controller;
+    private Controller controller;
 
-    public Client(HelloController controller) {
+    public Client(Controller controller) {
         this.controller = controller;
         openConnection();
     }
@@ -26,27 +24,33 @@ public class Client {
             in = new DataInputStream(socket.getInputStream());
             out = new DataOutputStream(socket.getOutputStream());
 
-            new  Thread(new Runnable() {
-                @Override
-                public void run() {
 
-                        try {
-                            while (true) {
-                                String s = in.readUTF();
-                                if( END.equals(s)){
-                                    controller.addMessage(END);
-                                    break;
-                                }
-                                controller.addMessage(s);
-                            }
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }finally {
-                            closeConnection();
-                            controller.addMessage("диалог окончен");
-                            flagExit = true;
+            new  Thread(() -> {
+                    try {
+                        while (true){
+                           String msgAuth =  in.readUTF();
+                           if(msgAuth.startsWith(Commands.AUTH_OK.getCommand())){
+                               String[] split = msgAuth.split(" ");
+                               controller.addMessage("успешная авторизация под ником " + split[1]);
+                               controller.setAuth(true);
+                               break;
+                           }
                         }
 
+                        while (true) {
+                            String s = in.readUTF();
+
+                            if( Commands.END_CHAT.getCommand().equals(s)){
+                                controller.addMessage(Commands.END_CHAT.getCommand());
+                                controller.setAuth(false);
+                                break;
+                            }
+                            controller.addMessage(s);
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }finally {
+                        closeConnection();
                     }
 
                 }).start();
@@ -93,14 +97,12 @@ public class Client {
     }
 
     public void close(){
-        if(flagExit) {
-            return;
-        }
         try {
-            out.writeUTF(END);
+            if(out != null) {
+                out.writeUTF(Commands.END_CHAT.getCommand());
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 }

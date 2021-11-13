@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
+
 <?import javafx.scene.layout.VBox?>
 
 <?import javafx.scene.control.Button?>
@@ -11,18 +10,26 @@
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.PasswordField?>
 <VBox xmlns:fx="http://javafx.com/fxml"
       stylesheets="@style.css"
-      fx:controller="com.example.lesson4.HelloController">
+      fx:controller="com.example.lesson4.Controller">
 
     <MenuBar>
         <Menu text="File">
             <MenuItem fx:id="exit" text="Exit" onAction="#exitMenuSelect" accelerator="Shortcut+X"/>
+            <MenuItem fx:id="logout" text="LogOut" onAction="#logOutMenuSelect" accelerator="Shortcut+L" />
         </Menu>
     </MenuBar>
 
-    <TextArea fx:id="messageArea" VBox.vgrow="ALWAYS" editable="false"/>
-    <HBox>
+    <HBox fx:id="loginBox" spacing="5" VBox.vgrow="ALWAYS">
+        <TextField fx:id="loginField" promptText="Login" />
+        <PasswordField fx:id="passwordField" promptText="Password" />
+        <Button text="Auth" defaultButton="true" onAction="#btnAuthClick" />
+    </HBox>
+
+    <TextArea fx:id="messageArea" VBox.vgrow="ALWAYS" editable="false" visible="false"/>
+    <HBox fx:id="messageBox" visible="false">
         <TextField fx:id="message" HBox.hgrow="ALWAYS" />
         <Button text="Send" onAction="#onSendButtonClick" defaultButton="true"/>
     </HBox>
