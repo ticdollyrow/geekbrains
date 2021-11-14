@@ -40,11 +40,18 @@ public class Client {
                         while (true) {
                             String s = in.readUTF();
 
-                            if( Commands.END_CHAT.getCommand().equals(s)){
+                            if(Commands.END_CHAT.getCommand().equals(s)){
                                 controller.addMessage(Commands.END_CHAT.getCommand());
+                                //controller.setAuth(false);
+                                break;
+                            }
+
+                            if(Commands.LOG_OUT.getCommand().equals(s)){
+
                                 controller.setAuth(false);
                                 break;
                             }
+
                             controller.addMessage(s);
                         }
                     } catch (IOException e) {

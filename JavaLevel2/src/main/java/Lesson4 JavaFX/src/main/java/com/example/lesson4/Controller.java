@@ -64,6 +64,7 @@ public class Controller {
     }
 
     public void logOutMenuSelect(ActionEvent actionEvent) {
-        client.sendMessage(Commands.END_CHAT.getCommand());
+
+        client.sendMessage(Commands.LOG_OUT.getCommand());
     }
 }

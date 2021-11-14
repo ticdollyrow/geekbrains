@@ -79,6 +79,21 @@ public class ClientHandler {
                     sendMessage(Commands.END_CHAT.getCommand());
                     break;
                 }
+
+                if(msg.equals(Commands.LOG_OUT.getCommand())){
+                    sendMessage(Commands.LOG_OUT.getCommand());
+                    break;
+                }
+
+                //отправка личного сообщения
+                if(msg.startsWith(Commands.PRIVATE_MESSAGE.getCommand())){
+                    String[] split = msg.split(" ");
+                    String nickTo = split[1];
+                    int beginMessageIndex = Commands.PRIVATE_MESSAGE.getCommand().length() + 2 + nickTo.length();
+                    msg = msg.substring(beginMessageIndex);
+                    server.sendToUser(this, msg, nickTo);
+                    continue;
+                }
                 server.broadcast(nick + " " + msg);
             }
         }catch (IOException e){
