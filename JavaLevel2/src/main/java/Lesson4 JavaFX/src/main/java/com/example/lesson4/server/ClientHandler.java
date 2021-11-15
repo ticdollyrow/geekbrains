@@ -13,6 +13,7 @@ public class ClientHandler {
     private final Socket socket;
     private final Server server;
     private String nick;
+    private boolean isLogIn = false;
 
     public ClientHandler(Socket socket, Server server){
 
@@ -26,8 +27,7 @@ public class ClientHandler {
 
             new Thread(() -> {
                 try {
-                    authenticate();
-                    readMessages();
+                    commandProcessing();
                 }finally {
                     closeConnection();
                 }
@@ -38,6 +38,11 @@ public class ClientHandler {
             throw new RuntimeException(e);
         }
 
+    }
+
+    private void commandProcessing() {
+//        authenticate();
+        readMessages();
     }
 
     private void closeConnection() {
@@ -73,16 +78,24 @@ public class ClientHandler {
     private void readMessages() {
         try{
             while(true){
-                String msg = in.readUTF();
-                if(msg.equals(Commands.END_CHAT.getCommand())){
 
+                if(!isLogIn){
+                    authenticate();
+                    continue;
+                }
+
+                String msg = in.readUTF();
+
+                if(msg.equals(Commands.END_CHAT.getCommand())){
                     sendMessage(Commands.END_CHAT.getCommand());
                     break;
                 }
 
                 if(msg.equals(Commands.LOG_OUT.getCommand())){
                     sendMessage(Commands.LOG_OUT.getCommand());
-                    break;
+                    isLogIn = false;
+                    server.unsubscribe(this);
+                    continue;
                 }
 
                 //отправка личного сообщения
@@ -104,7 +117,7 @@ public class ClientHandler {
 
     private void authenticate() {
         while (true){
-            try {
+           try {
                 String strClient = in.readUTF();
                 if(strClient.startsWith(Commands.AUTH.getCommand())){
                     String[] split = strClient.split(" ");
@@ -122,6 +135,7 @@ public class ClientHandler {
                         this.nick = nick;
                         server.subscribe(this);
                         server.broadcast("пользователь " + nick + "зашел в чат");
+                        isLogIn = true;
                         break;
                     }
                     }else{

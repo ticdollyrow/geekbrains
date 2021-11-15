@@ -27,18 +27,27 @@ public class Client {
 
             new  Thread(() -> {
                     try {
-                        while (true){
-                           String msgAuth =  in.readUTF();
-                           if(msgAuth.startsWith(Commands.AUTH_OK.getCommand())){
-                               String[] split = msgAuth.split(" ");
-                               controller.addMessage("успешная авторизация под ником " + split[1]);
-                               controller.setAuth(true);
-                               break;
-                           }
-                        }
+//                        while (true){
+//                           String msgAuth =  in.readUTF();
+//                           if(msgAuth.startsWith(Commands.AUTH_OK.getCommand())){
+//                               String[] split = msgAuth.split(" ");
+//                               controller.addMessage("успешная авторизация под ником " + split[1]);
+//                               controller.setAuth(true);
+//                               break;
+//                           }
+//                        }
 
                         while (true) {
                             String s = in.readUTF();
+
+//                            String msgAuth =  in.readUTF();
+                            String msgAuth = s;
+                            if(msgAuth.startsWith(Commands.AUTH_OK.getCommand())){
+                                String[] split = msgAuth.split(" ");
+                                controller.addMessage("успешная авторизация под ником " + split[1]);
+                                controller.setAuth(true);
+                                continue;
+                            }
 
                             if(Commands.END_CHAT.getCommand().equals(s)){
                                 controller.addMessage(Commands.END_CHAT.getCommand());
@@ -49,7 +58,8 @@ public class Client {
                             if(Commands.LOG_OUT.getCommand().equals(s)){
 
                                 controller.setAuth(false);
-                                break;
+//                                break;
+                                continue;
                             }
 
                             controller.addMessage(s);
