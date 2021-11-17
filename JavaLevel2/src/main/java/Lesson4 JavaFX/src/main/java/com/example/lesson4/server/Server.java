@@ -1,5 +1,7 @@
 package com.example.lesson4.server;
 
+import com.example.lesson4.Commands;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -40,6 +42,15 @@ public class Server {
 
     public void subscribe(ClientHandler client){
         clientHandlers.put(client.getNick(), client);
+        broadcastCLientsList();
+    }
+
+    private void broadcastCLientsList() {
+        StringBuilder clientsCommand = new StringBuilder(Commands.CLIENTS.getCommand());
+        for(ClientHandler client : clientHandlers.values()){
+            clientsCommand.append(client.getNick()).append(" ");
+        }
+        broadcast(clientsCommand.toString());
     }
 
     public void unsubscribe(ClientHandler client){
