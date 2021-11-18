@@ -81,8 +81,13 @@ public class ClientHandler {
 
                 if(!isLogIn){
                     authenticate();
+                    if(!isLogIn){
+
+                        break;
+                    }
                     continue;
                 }
+
 
                 String msg = in.readUTF();
 
@@ -116,29 +121,48 @@ public class ClientHandler {
     }
 
     private void authenticate() {
-        while (true){
-           try {
-                String strClient = in.readUTF();
-                if(strClient.startsWith(Commands.AUTH.getCommand())){
-                    String[] split = strClient.split(" ");
-                    if(split.length == 3){
-                    String login = split[1];
-                    String pass = split[2];
-                    String nick = server.getAuthService().getNickByLoginAndPassword(login, pass);
-                    if(nick != null) {
-                        if (server.isNickBusy(nick)) {
-                            sendMessage("Пользователь уже авторизован");
-                            continue;
-                        }
 
-                        sendMessage(Commands.AUTH_OK.getCommand() + " " + nick);
-                        this.nick = nick;
-                        server.subscribe(this);
-                        server.broadcast("пользователь " + nick + "зашел в чат");
-                        isLogIn = true;
-                        break;
-                    }
-                    }else{
+        long startTime = System.currentTimeMillis();
+        long timeOut = 0;
+        int available = 0;
+        String strClient = "";
+        while (true) {
+            try {
+
+                while (timeOut < 30 * 1000){
+                   available = in.available();
+                   if(available > 0){
+                       break;
+                   }
+                   timeOut = System.currentTimeMillis() - startTime;
+                }
+                if(available == 0){
+                    break;
+                }
+
+                strClient = in.readUTF();
+
+
+                if (strClient.startsWith(Commands.AUTH.getCommand())) {
+                    String[] split = strClient.split(" ");
+                    if (split.length == 3) {
+                        String login = split[1];
+                        String pass = split[2];
+                        String nick = server.getAuthService().getNickByLoginAndPassword(login, pass);
+                        if (nick != null) {
+                            if (server.isNickBusy(nick)) {
+                                sendMessage("Пользователь уже авторизован");
+                                continue;
+                            }
+
+                            sendMessage(Commands.AUTH_OK.getCommand() + " " + nick);
+                            this.nick = nick;
+                            server.subscribe(this);
+                            server.broadcast("пользователь " + nick + "зашел в чат");
+                            isLogIn = true;
+                            break;
+                        }
+                    } else {
                         sendMessage("Неверный логин/пароль");
                     }
 
@@ -148,7 +172,9 @@ public class ClientHandler {
             }
 
         }
+
     }
+
 
     public void sendMessage(String s) {
         try {

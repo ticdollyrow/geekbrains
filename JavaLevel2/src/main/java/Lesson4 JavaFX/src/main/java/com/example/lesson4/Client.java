@@ -1,9 +1,13 @@
 package com.example.lesson4;
 
+import javafx.collections.ObservableList;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.Arrays;
+import java.util.List;
 
 public class Client {
     final static int PORT = 8190;
@@ -50,7 +54,7 @@ public class Client {
                             }
 
                             if(Commands.END_CHAT.getCommand().equals(s)){
-                                controller.addMessage(Commands.END_CHAT.getCommand());
+
                                 //controller.setAuth(false);
                                 break;
                             }
@@ -59,6 +63,13 @@ public class Client {
 
                                 controller.setAuth(false);
 //                                break;
+                                continue;
+                            }
+
+                            if(s.startsWith(Commands.CLIENTS.getCommand())){
+                                List<String> clients = Arrays.asList(s.replace(Commands.CLIENTS.getCommand(), "").split(" "));
+
+                                controller.updateClientList(clients);
                                 continue;
                             }
 

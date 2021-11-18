@@ -6,7 +6,8 @@ public enum Commands {
     AUTH("/auth"),
     AUTH_OK("/authok"),
     PRIVATE_MESSAGE("/w"),
-    LOG_OUT("/logout");
+    LOG_OUT("/logout"),
+    CLIENTS("/clients");
 
     private String command;
 
