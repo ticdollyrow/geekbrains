@@ -1,8 +1,8 @@
 package fruit;
 
+import com.google.common.math.DoubleMath;
 import lombok.Getter;
 
-import java.lang.annotation.AnnotationFormatError;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,38 +15,12 @@ public class Box<T extends Fruit> implements Comparable<Box>{
         fruits = new ArrayList<>();
     }
 
-    public static void main(String[] args) {
-        Box<Apple> boxOfApple = new Box<>();
-        Box<Apple> boxOfApple2 = new Box<>();
-        Box<Orange> boxOfOrange = new Box<>();
-        Apple apple1 = new Apple(1.0f);
-        Apple apple2 = new Apple(1.3f);
-        Orange orange1 = new Orange(2.5f);
-
-
-        boxOfApple.addFruit(apple1);
-        boxOfApple.addFruit(apple2);
-        boxOfApple2.addFruit(apple1);
-        boxOfOrange.addFruit(orange1);
-
-
-        System.out.println(boxOfApple.getWeight());
-        System.out.println(boxOfApple.compare(boxOfOrange));
-        boxOfApple2.empty(boxOfApple);
-
-
-        System.out.println(boxOfApple.getWeight());
-        System.out.println(boxOfApple2.getWeight());
-        System.out.println(boxOfApple2.compareTo(boxOfOrange));
-
-    }
-
     public void addFruit(T fruit){
         fruits.add(fruit);
     }
 
-    public Float getWeight(){
-        Float weight = 0.0f;
+    public double getWeight(){
+        double weight = 0.0;
 
         for (T fruit : fruits) {
             weight+= fruit.getWeight();
@@ -63,14 +37,10 @@ public class Box<T extends Fruit> implements Comparable<Box>{
         this.fruits.clear();
     }
 
-    public boolean compare(Box box){
-         return this.getWeight().equals(box.getWeight());
-    }
-
 
     @Override
     public int compareTo(Box box) {
-
-        return this.getWeight().compareTo(box.getWeight());
+        double epsilon = 0.000001d;
+        return  DoubleMath.fuzzyCompare(this.getWeight(), box.getWeight(), epsilon);
     }
 }
