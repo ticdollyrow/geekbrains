@@ -1,22 +1,19 @@
 package com.example.lesson4;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyCodeCombination;
-import javafx.scene.input.KeyCombination;
+
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
-
-import java.net.URL;
 import java.util.List;
-import java.util.ResourceBundle;
+
 
 public class Controller {
+    @FXML
+    private MenuItem logout;
+    @FXML
+    private MenuItem exit;
     @FXML
     private ListView<String> clientList;
     @FXML
@@ -90,4 +87,7 @@ public class Controller {
         clientList.getItems().addAll(clients);
 
     }
+
+	public void btnSignUpClick(ActionEvent actionEvent) {
+	}
 }
