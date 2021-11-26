@@ -19,7 +19,6 @@ public class AuthServiceImpl implements AuthService {
 
     private final List<UserData> users;
 
-
     public AuthServiceImpl( ) {
         this.users = new ArrayList<>();
         for(int i = 0; i < 5; i++){

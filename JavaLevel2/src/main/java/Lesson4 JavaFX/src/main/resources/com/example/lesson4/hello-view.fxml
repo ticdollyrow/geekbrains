@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 
 <?import javafx.scene.control.ListView?>
-<VBox prefHeight="416.0" prefWidth="525.0" stylesheets="@style.css"
+<VBox prefHeight="416.0" prefWidth="600.0" stylesheets="@style.css"
       xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/15.0.1"
       fx:controller="com.example.lesson4.Controller">
 
@@ -26,7 +26,7 @@
         <TextField fx:id="loginField" promptText="Login" />
         <PasswordField fx:id="passwordField" promptText="Password" />
         <Button defaultButton="true" onAction="#btnAuthClick" text="Auth" />
-        <Button onAction="#btnSignUpClick" text="SignUp"/>
+        <Button fx:id="singUpButton" onAction="#btnSignUpClick" text="SignUp"/>
     </HBox>
 
     <HBox fx:id="messageBox" visible="false">
