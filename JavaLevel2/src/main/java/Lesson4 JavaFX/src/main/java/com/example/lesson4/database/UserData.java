@@ -12,4 +12,16 @@ public class UserData {
 		this.password = password;
 		this.nick = nick;
 	}
+
+	public String getLogin() {
+		return login;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public String getNick() {
+		return nick;
+	}
 }

@@ -89,7 +89,7 @@ public class ClientHandler {
                 }
 
 
-                String msg = in.readUTF();
+               String msg = in.readUTF();
 
                 if(msg.equals(Commands.END_CHAT.getCommand())){
                     sendMessage(Commands.END_CHAT.getCommand());
@@ -120,16 +120,19 @@ public class ClientHandler {
 
     }
 
-    private void authenticate() {
+    private void registration(){
+        System.out.println("ClientHandler регистрация");
+    }
 
+    private void authenticate() {
+        System.out.println("Авторизация");
         long startTime = System.currentTimeMillis();
         long timeOut = 0;
         int available = 0;
         String strClient = "";
         while (true) {
             try {
-
-                while (timeOut < 30 * 1000){
+                while (timeOut < 120 * 1000){
                    available = in.available();
                    if(available > 0){
                        break;
@@ -137,11 +140,19 @@ public class ClientHandler {
                    timeOut = System.currentTimeMillis() - startTime;
                 }
                 if(available == 0){
+                    System.out.println("Выход по таймеру");
                     break;
+                }else{
+                    startTime = System.currentTimeMillis();
                 }
 
                 strClient = in.readUTF();
+                System.out.println(strClient);
 
+                if(strClient.startsWith(Commands.REGISTRATION.getCommand())) {
+                    registration();
+                    continue;
+                }
 
                 if (strClient.startsWith(Commands.AUTH.getCommand())) {
                     String[] split = strClient.split(" ");

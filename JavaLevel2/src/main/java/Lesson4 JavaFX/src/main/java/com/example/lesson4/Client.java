@@ -137,7 +137,7 @@ public class Client {
 
     public void registration(UserData user){
         String message;
-        message = Commands.REGISTRATION.getCommand();
+        message = Commands.REGISTRATION.getCommand() + " " + user.getLogin() + " " + user.getPassword() + " " + user.getNick();
         sendMessage(message);
     }
 }

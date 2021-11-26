@@ -103,6 +103,7 @@ public class Controller {
     }
 
 	public void btnSignUpClick(ActionEvent actionEvent) {
+
         UserData user;
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("SignUp.fxml"));
