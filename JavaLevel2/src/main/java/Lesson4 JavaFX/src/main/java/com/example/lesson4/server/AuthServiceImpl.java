@@ -1,9 +1,14 @@
 package com.example.lesson4.server;
 
+import com.example.lesson4.database.DatabaseHandler;
+
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class AuthServiceImpl implements AuthService {
+
+    private final DatabaseHandler databaseHandler;
 
     private static class UserData{
         private final String login;
@@ -17,23 +22,28 @@ public class AuthServiceImpl implements AuthService {
         }
     }
 
-    private final List<UserData> users;
 
-    public AuthServiceImpl( ) {
-        this.users = new ArrayList<>();
-        for(int i = 0; i < 5; i++){
-            this.users.add(new UserData("login" + i, "pass" + i, "nick" + i));
-        }
+    public AuthServiceImpl( DatabaseHandler databaseHandler ) {
+        this.databaseHandler = databaseHandler;
     }
 
     @Override
     public String getNickByLoginAndPassword(String login, String password) {
-
-        for (UserData user : users) {
-            if(user.login.equals(login) && user.password.equals(password)){
-                return  user.nick;
-            }
+        try {
+            return databaseHandler.getUserData(login, password);
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return null;
     }
+
+    @Override
+    public void registerNewUser(String login, String password, String nick){
+        try {
+            databaseHandler.signUpUser(login, password,nick);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

@@ -120,8 +120,9 @@ public class ClientHandler {
 
     }
 
-    private void registration(){
+    private void registration(String login, String pass, String nick ){
         System.out.println("ClientHandler регистрация");
+        server.getAuthService().registerNewUser(login, pass, nick);
     }
 
     private void authenticate() {
@@ -150,7 +151,12 @@ public class ClientHandler {
                 System.out.println(strClient);
 
                 if(strClient.startsWith(Commands.REGISTRATION.getCommand())) {
-                    registration();
+
+                    String[] split = strClient.split(" ");
+                    String login = split[1];
+                    String pass = split[2];
+                    String nick = split[3];
+                    registration(login, pass, nick);
                     continue;
                 }
 

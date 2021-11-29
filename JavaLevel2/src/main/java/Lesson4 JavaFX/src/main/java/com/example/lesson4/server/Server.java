@@ -17,9 +17,8 @@ public class Server {
     private final Map<String, ClientHandler> clientHandlers;
 
     public Server() {
-
         this.databaseHandler = new DatabaseHandler();
-        this.authService = new AuthServiceImpl();
+        this.authService = new AuthServiceImpl(this.databaseHandler);
         this.clientHandlers = new HashMap<>();
     }
 
