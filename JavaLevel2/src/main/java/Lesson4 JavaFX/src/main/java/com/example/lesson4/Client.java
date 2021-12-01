@@ -1,5 +1,6 @@
 package com.example.lesson4;
 
+import com.example.lesson4.database.UserData;
 import javafx.collections.ObservableList;
 
 import java.io.DataInputStream;
@@ -132,5 +133,11 @@ public class Client {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void registration(UserData user){
+        String message;
+        message = Commands.REGISTRATION.getCommand() + " " + user.getLogin() + " " + user.getPassword() + " " + user.getNick();
+        sendMessage(message);
     }
 }

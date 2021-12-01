@@ -1,15 +1,24 @@
 package com.example.lesson4;
 
+import com.example.lesson4.database.UserData;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
+
+import java.io.IOException;
 import java.util.List;
 
 
 public class Controller {
+    @FXML
+    private Button singUpButton;
     @FXML
     private MenuItem logout;
     @FXML
@@ -57,7 +66,12 @@ public class Controller {
     }
 
     public void btnAuthClick(ActionEvent actionEvent) {
-        client.sendMessage(Commands.AUTH.getCommand() + " " + loginField.getText() + " " + passwordField.getText() );
+        String login = loginField.getText().trim();
+        String password = passwordField.getText().trim();
+
+        if(!login.equals("") && !password.equals("")){
+            client.sendMessage(Commands.AUTH.getCommand() + " " + login + " " + password );
+        }
     }
 
     public void setAuth(boolean isAuthorisated){
@@ -89,5 +103,25 @@ public class Controller {
     }
 
 	public void btnSignUpClick(ActionEvent actionEvent) {
-	}
+
+        UserData user;
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("SignUp.fxml"));
+
+        try {
+            loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Parent root = loader.getRoot();
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root));
+        stage.showAndWait();
+
+        System.out.println("Регистрация");
+        SignupController signupController = loader.getController();
+        user = signupController.getRegisterData();
+        client.registration(user);
+    }
 }

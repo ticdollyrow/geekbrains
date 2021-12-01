@@ -8,31 +8,31 @@
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #E6E6FA#E6E6FA;"
-            xmlns="http://javafx.com/javafx/17"
+            xmlns="http://javafx.com/javafx/15.0.1"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.example.lesson4.SignupController">
    <children>
-      <TextField fx:id="loginSignUp" layoutX="125.0" layoutY="73.0" prefHeight="26.0" prefWidth="324.0" promptText="Логин" style="-fx-background-radius: 5;">
+      <TextField fx:id="loginSignUp" layoutX="125.0" layoutY="73.0" prefHeight="26.0" prefWidth="324.0"
+                 promptText="Логин" style="-fx-background-radius: 5;">
          <font>
             <Font size="17.0" />
          </font></TextField>
-      <TextField fx:id="nickSignUp" layoutX="125.0" layoutY="208.0" prefHeight="26.0" prefWidth="324.0" promptText="Ник" style="-fx-background-radius: 5;">
+      <TextField fx:id="nickSignUp" layoutX="125.0" layoutY="208.0" prefHeight="26.0" prefWidth="324.0"
+                 promptText="Ник" style="-fx-background-radius: 5;">
          <font>
             <Font size="17.0" />
          </font></TextField>
-      <PasswordField fx:id="passwordSignUp" layoutX="125.0" layoutY="144.0" prefHeight="26.0" prefWidth="324.0" promptText="Пароль" style="-fx-background-radius: 5;">
+      <PasswordField fx:id="passwordSignUp" layoutX="125.0" layoutY="144.0" prefHeight="26.0" prefWidth="324.0"
+                     promptText="Пароль" style="-fx-background-radius: 5;">
          <font>
             <Font size="17.0" />
          </font></PasswordField>
       <Label layoutX="207.0" layoutY="25.0" prefHeight="37.0" prefWidth="187.0" text="Регистрация">
-         <font>
-            <Font name="Serif Regular" size="30.0" />
-         </font>
+
       </Label>
-      <Button fx:id="signUpButton" layoutX="176.0" layoutY="292.0" mnemonicParsing="false" style="-fx-background-color: #9c9cdf#9c9cdf;" text="Зарегистрироваться" textFill="#487080">
-         <font>
-            <Font size="21.0" />
-         </font>
+      <Button fx:id="signUpButton" onAction="#signUpBtnClick" layoutX="176.0" layoutY="292.0" mnemonicParsing="false" style="-fx-background-color: #9c9cdf#9c9cdf;"
+              text="Зарегистрироваться" textFill="#487080">
+
       </Button>
    </children>
 </AnchorPane>

@@ -1,33 +1,45 @@
 package com.example.lesson4.server;
 
 import com.example.lesson4.Commands;
+import com.example.lesson4.database.DatabaseHandler;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.sql.SQLException;
 import java.util.*;
-
 
 public class Server {
     private final static int PORT = 8190;
 
     private final AuthService authService;
+    private final DatabaseHandler databaseHandler;
     private final Map<String, ClientHandler> clientHandlers;
 
     public Server() {
-        this.authService = new AuthServiceImpl();
+        this.databaseHandler = new DatabaseHandler();
+        this.authService = new AuthServiceImpl(this.databaseHandler);
         this.clientHandlers = new HashMap<>();
     }
 
     public void run() {
+        try {
+            this.databaseHandler.connect();
+            this.databaseHandler.createAuthTable();
 
-        try(ServerSocket serverSocket = new ServerSocket(PORT)){
-            while (true){
-               final Socket socket = serverSocket.accept();
-               new ClientHandler(socket, this);
+            try (ServerSocket serverSocket = new ServerSocket(PORT)) {
+                while (true) {
+                    final Socket socket = serverSocket.accept();
+                    new ClientHandler(socket, this);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }finally {
+            this.databaseHandler.disconnect();
         }
     }
 
