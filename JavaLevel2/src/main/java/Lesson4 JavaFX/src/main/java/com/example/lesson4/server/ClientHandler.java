@@ -7,7 +7,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
-public class ClientHandler {
+public class ClientHandler implements Runnable{
     private final DataInputStream in;
     private final DataOutputStream out;
     private final Socket socket;
@@ -25,13 +25,13 @@ public class ClientHandler {
             this.out = new DataOutputStream(socket.getOutputStream());
 
 
-            new Thread(() -> {
-                try {
-                    commandProcessing();
-                }finally {
-                    closeConnection();
-                }
-            }).start();
+//            new Thread(() -> {
+//                try {
+//                    commandProcessing();
+//                }finally {
+//                    closeConnection();
+//                }
+//            }).start();
 
 
         } catch (IOException e) {
@@ -175,7 +175,7 @@ public class ClientHandler {
                             sendMessage(Commands.AUTH_OK.getCommand() + " " + nick);
                             this.nick = nick;
                             server.subscribe(this);
-                            server.broadcast("пользователь " + nick + "зашел в чат");
+                            server.broadcast("пользователь " + nick + " зашел в чат");
                             isLogIn = true;
                             break;
                         }
@@ -202,5 +202,14 @@ public class ClientHandler {
 
     public String getNick() {
         return nick;
+    }
+
+    @Override
+    public void run() {
+        try {
+            commandProcessing();
+        }finally {
+            closeConnection();
+        }
     }
 }
