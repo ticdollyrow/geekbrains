@@ -11,10 +11,10 @@ public class MainClass {
         Semaphore smp = new Semaphore(CARS_COUNT / 2);
 
         System.out.println("ВАЖНОЕ ОБЪЯВЛЕНИЕ >>> Подготовка!!!");
-        Race race = new Race(new Road(60), new Tunnel(), new Road(40));
+        Race race = new Race(new Road(60), new Tunnel(smp), new Road(40));
         Car[] cars = new Car[CARS_COUNT];
         for (int i = 0; i < cars.length; i++) {
-            cars[i] = new Car(race, 20 + (int) (Math.random() * 10), start, cdl, smp, ready);
+            cars[i] = new Car(race, 20 + (int) (Math.random() * 10), start, cdl, ready);
         }
 
         ExecutorService executor = Executors.newFixedThreadPool(CARS_COUNT);

@@ -22,14 +22,13 @@ public class Car implements Runnable{
     public int getSpeed() {
         return speed;
     }
-    public Car(Race race, int speed, CountDownLatch start, CountDownLatch cdl, Semaphore smp, CountDownLatch ready ) {
+    public Car(Race race, int speed, CountDownLatch start, CountDownLatch cdl, CountDownLatch ready ) {
         this.race = race;
         this.speed = speed;
         CARS_COUNT++;
         this.name = "Участник #" + CARS_COUNT;
         this.start = start;
         this.cdl = cdl;
-        this.smp = smp;
         this.ready = ready;
     }
     @Override
@@ -61,7 +60,4 @@ public class Car implements Runnable{
 
     }
 
-    public Semaphore getSmp() {
-        return smp;
-    }
 }
