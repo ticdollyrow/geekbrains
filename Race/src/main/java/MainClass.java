@@ -8,10 +8,10 @@ public class MainClass {
         final CountDownLatch cdl = new CountDownLatch(CARS_COUNT);
         final CountDownLatch ready = new CountDownLatch(CARS_COUNT);
         final CountDownLatch start = new CountDownLatch(1);
-        Semaphore smp = new Semaphore(CARS_COUNT / 2);
+
 
         System.out.println("ВАЖНОЕ ОБЪЯВЛЕНИЕ >>> Подготовка!!!");
-        Race race = new Race(new Road(60), new Tunnel(smp), new Road(40));
+        Race race = new Race(new Road(60), new Tunnel(CARS_COUNT / 2), new Road(40));
         Car[] cars = new Car[CARS_COUNT];
         for (int i = 0; i < cars.length; i++) {
             cars[i] = new Car(race, 20 + (int) (Math.random() * 10), start, cdl, ready);
